@@ -1,7 +1,7 @@
 package edu.chapman.cpsc.beerrun.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import edu.chapman.cpsc.beerrun.BeerCollection;
 import edu.chapman.cpsc.beerrun.R;
+import edu.chapman.cpsc.beerrun.activities.MainActivity;
 import edu.chapman.cpsc.beerrun.fragments.InfoFragment;
 import edu.chapman.cpsc.beerrun.models.BeerModel;
 
@@ -26,29 +26,59 @@ import edu.chapman.cpsc.beerrun.models.BeerModel;
 public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
     private final String LOGTAG = "BeerAdapter";
 
+    private Context mContext;
+    private List<BeerModel> beerModelList;
+
+    private String abv = "";
+    private String ibu = "";
+    private String description = "";
+    private String theBeer = "";
+    private String brewery = "";
+
+    public BeerAdapter(Context mContext, List<BeerModel> beerModelList){
+        this.mContext = mContext;
+        this.beerModelList = beerModelList;
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_beer, parent, false);
+
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        BeerModel beer = BeerCollection.GetInstance().getBeers().get(position);
+        holder.title.setText(beerModelList.get(position).getTitle());
 
-        holder.setup(beer);
+        if(beerModelList.get(position).getUrl() != null) {
+            Picasso.with(mContext)
+                    .load(beerModelList.get(position).getUrl())
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.beer_main)
+                    .fit()
+                    .into(holder.image);
+        }
+
+        else{
+            holder.image.setImageResource(R.drawable.beer_main);
+        }
+
+        this.theBeer = beerModelList.get(position).getTitle();
+        this.description = beerModelList.get(position).getDescription();
+        this.abv = beerModelList.get(position).getAbv();
+        this.ibu = beerModelList.get(position).getIbu();
+        this.brewery = beerModelList.get(position).getBrewery();
     }
 
     @Override
     public int getItemCount() {
         Log.d(LOGTAG, "getItemCount()");
-        return BeerCollection.GetInstance().getBeers().size();
+        return beerModelList.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder{
-        private BeerModel beer;
-
         private TextView title;
         private ImageButton image;
 
@@ -61,29 +91,21 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
             this.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent beerIntent = new Intent(view.getContext(), InfoFragment.class)
-                            .putExtra(InfoFragment.EXTRA_BEER_ID, beer.getId());
+                    InfoFragment infofrag = new InfoFragment();
 
-                    view.getContext().startActivity(beerIntent);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("theBeer", theBeer);
+                    bundle.putString("description", description);
+                    bundle.putString("abv", abv);
+                    bundle.putString("ibu", ibu);
+                    bundle.putString("brewery", brewery);
+
+                    infofrag.setArguments(bundle);
+
+                    ((MainActivity) mContext).showFrag(infofrag);
+
                 }
             });
-        }
-
-        public void setup(BeerModel beer){
-            this.beer = beer;
-            this.title.setText(beer.getTitle());
-
-            if(beer.getUrl() != null) {
-                Picasso.with(MyViewHolder.this.itemView.getContext()).load(beer.getUrl())
-                        .placeholder(R.drawable.progress_animation)
-                        .error(R.drawable.beer_main)
-                        .fit()
-                        .into(this.image);
-            }
-
-            else{
-                this.image.setImageResource(R.drawable.beer_main);
-            }
         }
     }
 }
