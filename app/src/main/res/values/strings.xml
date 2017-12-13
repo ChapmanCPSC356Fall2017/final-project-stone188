@@ -11,4 +11,9 @@
     <string name="the_brewery">brewery:&#032;</string>
     <string name="the_abv">abv:&#032;</string>
     <string name="the_ibu">ibu:&#032;</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="create_account">Create Account</string>
+    <string name="login">LOGIN</string>
+    <string name="create">Create</string>
 </resources>

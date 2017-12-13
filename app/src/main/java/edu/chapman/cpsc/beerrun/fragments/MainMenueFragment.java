@@ -1,13 +1,21 @@
 package edu.chapman.cpsc.beerrun.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -22,79 +30,114 @@ import edu.chapman.cpsc.beerrun.activities.MainActivity;
  */
 
 public class MainMenueFragment extends Fragment{
-    private Spinner spinner;
     private Button subBtn;
-    private ArrayAdapter<String> adapter;
-    private List<String> item = new ArrayList<>();
+    private EditText user;
+    private EditText passwd;
+    private Button createAccount;
+    private Button login;
+    private Button create;
 
-    public MainActivity mainActivity;
-
-    public BeerFragment beerFrag;
-    public EventFragment eventFrag;
-    public InfoFragment infoFrag;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-
-        item.add("Discover a Beer");
-        item.add("Discover a Brewery");
-        item.add("Discover an Event");
-    }
+    private MainActivity mainActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
+        final View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
-        this.spinner = v.findViewById(R.id.spinner);
+        mainActivity = (MainActivity) getContext();
+
         this.subBtn = v.findViewById(R.id.submitButton);
+        this.user = v.findViewById(R.id.username);
+        this.passwd = v.findViewById(R.id.passwd);
+        this.createAccount = v.findViewById(R.id.create_account);
+        this.login = v.findViewById(R.id.login);
+        this.create = v.findViewById(R.id.create);
 
-        this.adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,
-                item);
+        createAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                visibilityChange(view);
+                create.setVisibility(view.VISIBLE);
+                subBtn.setVisibility(view.GONE);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+                create.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(user.getText().toString().equals("")){
+                            Toast.makeText(getContext(),
+                                    "Please complete both fields to register",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        else {
+                            SharedPreferences login = getContext().getSharedPreferences(
+                                    "userInfo", Context.MODE_PRIVATE);
+
+                            SharedPreferences.Editor editor = login.edit();
+                            editor.putString("username", user.getText().toString());
+                            editor.putString("password", passwd.getText().toString());
+                            editor.apply();
+                            Toast.makeText(getContext(),
+                                    "Welcome!, please log in", Toast.LENGTH_SHORT).show();
+
+                            create.setVisibility(view.GONE);
+                            subBtn.setVisibility(view.VISIBLE);
+                            user.setText("");
+                            passwd.setText("");
+                        }
+                    }
+                });
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                visibilityChange(view);
+                subBtn.setVisibility(view.VISIBLE);
+            }
+        });
+
+        subBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences login = getContext().getSharedPreferences(
+                        "userInfo", Context.MODE_PRIVATE);
+
+                String username = login.getString("username", "");
+                String password = login.getString("password", "");
+
+                if(user.getText().toString().equals(username)
+                        && passwd.getText().toString().equals(password)){
+                    BeerFragment beerFrag = new BeerFragment();
+                    mainActivity.showFrag(beerFrag);
+                }
+
+                else{
+                    showError();
+
+                    Toast.makeText(getContext(), username + " " + password, Toast.LENGTH_SHORT).show();
+
+                    /*Toast.makeText(getContext(), "Incorrect username" +
+                            " or password, please try again", Toast.LENGTH_LONG).show();*/
+                }
+            }
+        });
 
         return v;
     }
 
-    @Override
-    public void onResume(){
-        super.onResume();
+    public void visibilityChange(View view){
+        login.setVisibility(view.GONE);
+        createAccount.setVisibility(view.GONE);
+        user.setVisibility(view.VISIBLE);
+        passwd.setVisibility(view.VISIBLE);
+    }
 
-        mainActivity = (MainActivity) getContext();
-
-        this.subBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String selected = String.valueOf(spinner.getSelectedItem());
-
-                switch(selected){
-                    case "Discover a Beer":
-                        beerFrag = new BeerFragment();
-                        mainActivity.showFrag(beerFrag);
-
-                        break;
-
-                    case "Discover a Brewery":
-                        infoFrag = new InfoFragment();
-                        mainActivity.showFrag(infoFrag);
-
-                        break;
-
-                    case "Discover an Event":
-                        eventFrag = new EventFragment();
-                        mainActivity.showFrag(eventFrag);
-
-                        break;
-
-                    default:
-                        Toast.makeText(getActivity(), "Nothing selected",
-                                Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private void showError() {
+        Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+        user.startAnimation(shake);
+        passwd.startAnimation(shake);
     }
 }
