@@ -37,6 +37,9 @@ public class MainMenueFragment extends Fragment{
     private Button login;
     private Button create;
 
+    private String username_key;
+    private String passwd_key;
+
     private MainActivity mainActivity;
 
     @Nullable
@@ -64,19 +67,23 @@ public class MainMenueFragment extends Fragment{
                 create.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(user.getText().toString().equals("")){
+                        if(user.getText().toString().equals("")
+                                || passwd.getText().toString().equals("")){
                             Toast.makeText(getContext(),
                                     "Please complete both fields to register",
                                     Toast.LENGTH_SHORT).show();
                         }
 
                         else {
+                            username_key = user.getText().toString();
+                            passwd_key = user.getText().toString();
+
                             SharedPreferences login = getContext().getSharedPreferences(
                                     "userInfo", Context.MODE_PRIVATE);
 
                             SharedPreferences.Editor editor = login.edit();
-                            editor.putString("username", user.getText().toString());
-                            editor.putString("password", passwd.getText().toString());
+                            editor.putString(username_key, user.getText().toString());
+                            editor.putString(passwd_key, passwd.getText().toString());
                             editor.apply();
                             Toast.makeText(getContext(),
                                     "Welcome!, please log in", Toast.LENGTH_SHORT).show();
@@ -102,14 +109,16 @@ public class MainMenueFragment extends Fragment{
         subBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                username_key = user.getText().toString();
+                passwd_key = user.getText().toString();
+
                 SharedPreferences login = getContext().getSharedPreferences(
                         "userInfo", Context.MODE_PRIVATE);
 
-                String username = login.getString("username", "");
-                String password = login.getString("password", "");
+                String username = login.getString(username_key, "");
+                String password = login.getString(passwd_key, "");
 
-                if(user.getText().toString().equals(username)
-                        && passwd.getText().toString().equals(password)){
+                if(username != null && password != null){
                     BeerFragment beerFrag = new BeerFragment();
                     mainActivity.showFrag(beerFrag);
                 }
