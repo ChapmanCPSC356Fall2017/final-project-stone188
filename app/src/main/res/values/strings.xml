@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BeerRun</string>
+    <string name="beer_styles">Beer Styles</string>
+    <string name="brewery_search">Brewery Search</string>
+    <string name="beer_search">beer search</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="beer_run_logo">beer_run_logo</string>
+    <string name="place_holder">place_holder</string>
+    <string name="the_brewery">brewery:</string>
+    <string name="the_abv">abv:</string>
+    <string name="the_ibu">ibu</string>
+</resources>
