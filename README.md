@@ -1,2 +1,0 @@
-# BeerRun
-Simple brewerydb app
