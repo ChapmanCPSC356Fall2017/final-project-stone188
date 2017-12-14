@@ -5,13 +5,6 @@
     android:background="@android:drawable/alert_light_frame"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="300dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/yellow_scroll_banner" />
-
     <TextView
         android:id="@+id/tv_info_title"
         android:layout_width="match_parent"

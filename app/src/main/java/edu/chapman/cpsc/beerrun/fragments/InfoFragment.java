@@ -1,9 +1,12 @@
 package edu.chapman.cpsc.beerrun.fragments;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,20 +53,24 @@ public class InfoFragment extends Fragment {
             this.brewery = String.valueOf(bundle.getString("brewery"));
         }
 
-        title.setText(nullCheck(theBeer));
-        info.setText(nullCheck(description));
-        line1.setText(String.format("%s%s", getString(R.string.the_brewery), nullCheck(brewery)));
-        line2.setText(String.format("%s%s", getString(R.string.the_abv), nullCheck(abv)));
-        line3.setText(String.format("%s%s", getString(R.string.the_ibu), nullCheck(ibu)));
+        title.setText(nullCheck(theBeer, title));
+        info.setText(nullCheck(description, info));
+        line1.setText(String.format("%s%s", "brewery: ", nullCheck(brewery, line1)));
+        line2.setText(String.format("%s%s", "abv: ", nullCheck(abv, line2)));
+        line3.setText(String.format("%s%s", "ibu: ", nullCheck(ibu, line3)));
 
         return v;
     }
 
-    public String nullCheck(String s){
+    public String nullCheck(String s, TextView tv){
         String replace = "NO ENTRY IN DATABASE";
         if(s.equals("null")){
+            tv.setTypeface(Typeface.DEFAULT);
+            tv.setTextColor(Color.parseColor("#D3D3D3"));
             return replace;
         }
+        tv.setTypeface(Typeface.DEFAULT_BOLD);
+        tv.setTextColor(Color.parseColor("#000000"));
         return s;
     }
 }

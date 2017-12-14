@@ -8,9 +8,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="beer_run_logo">beer_run_logo</string>
     <string name="place_holder">place_holder</string>
-    <string name="the_brewery">brewery:&#032;</string>
-    <string name="the_abv">abv:&#032;</string>
-    <string name="the_ibu">ibu:&#032;</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
     <string name="create_account">Create Account</string>

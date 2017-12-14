@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.test.espresso.base.Default;
 import android.support.v4.app.Fragment;
 import android.text.method.PasswordTransformationMethod;
 import android.text.method.TransformationMethod;
@@ -19,7 +21,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.chapman.cpsc.beerrun.R;
 import edu.chapman.cpsc.beerrun.activities.MainActivity;
@@ -39,6 +43,8 @@ public class MainMenueFragment extends Fragment{
 
     private String username_key;
     private String passwd_key;
+
+    private Set<String> user_set;
 
     private MainActivity mainActivity;
 
@@ -67,6 +73,9 @@ public class MainMenueFragment extends Fragment{
                 create.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        user_set = new HashSet<>();
+
                         if(user.getText().toString().equals("")
                                 || passwd.getText().toString().equals("")){
                             Toast.makeText(getContext(),
@@ -75,18 +84,16 @@ public class MainMenueFragment extends Fragment{
                         }
 
                         else {
-                            username_key = user.getText().toString();
-                            passwd_key = user.getText().toString();
+                            getHash();
 
                             SharedPreferences login = getContext().getSharedPreferences(
                                     "userInfo", Context.MODE_PRIVATE);
 
                             SharedPreferences.Editor editor = login.edit();
-                            editor.putString(username_key, user.getText().toString());
-                            editor.putString(passwd_key, passwd.getText().toString());
+                            editor.putStringSet("user_data", user_set);
                             editor.apply();
                             Toast.makeText(getContext(),
-                                    "Welcome!, please log in", Toast.LENGTH_SHORT).show();
+                                    "Welcome! please log in", Toast.LENGTH_SHORT).show();
 
                             create.setVisibility(view.GONE);
                             subBtn.setVisibility(view.VISIBLE);
@@ -109,27 +116,23 @@ public class MainMenueFragment extends Fragment{
         subBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                username_key = user.getText().toString();
-                passwd_key = user.getText().toString();
+                user_set = new HashSet<>();
+                getHash();
 
                 SharedPreferences login = getContext().getSharedPreferences(
                         "userInfo", Context.MODE_PRIVATE);
 
-                String username = login.getString(username_key, "");
-                String password = login.getString(passwd_key, "");
+                Set<String> user_validation = login.getStringSet("user_data", new HashSet<String>());
 
-                if(username != null && password != null){
+                if(!user_validation.isEmpty() && user_set.equals(user_validation)){
                     BeerFragment beerFrag = new BeerFragment();
                     mainActivity.showFrag(beerFrag);
                 }
 
                 else{
                     showError();
-
-                    Toast.makeText(getContext(), username + " " + password, Toast.LENGTH_SHORT).show();
-
-                    /*Toast.makeText(getContext(), "Incorrect username" +
-                            " or password, please try again", Toast.LENGTH_LONG).show();*/
+                    Toast.makeText(getContext(), "Incorrect username" +
+                            " or password, please try again", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -137,7 +140,7 @@ public class MainMenueFragment extends Fragment{
         return v;
     }
 
-    public void visibilityChange(View view){
+    private void visibilityChange(View view){
         login.setVisibility(view.GONE);
         createAccount.setVisibility(view.GONE);
         user.setVisibility(view.VISIBLE);
@@ -148,5 +151,15 @@ public class MainMenueFragment extends Fragment{
         Animation shake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
         user.startAnimation(shake);
         passwd.startAnimation(shake);
+    }
+
+    private Set<String> getHash(){
+        username_key = user.getText().toString();
+        passwd_key = user.getText().toString();
+
+        user_set.add(username_key);
+        user_set.add(passwd_key);
+
+        return user_set;
     }
 }

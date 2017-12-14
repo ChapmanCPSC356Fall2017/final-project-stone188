@@ -29,12 +29,6 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
     private Context mContext;
     private List<BeerModel> beerModelList;
 
-    private String abv = "";
-    private String ibu = "";
-    private String description = "";
-    private String theBeer = "";
-    private String brewery = "";
-
     public BeerAdapter(Context mContext, List<BeerModel> beerModelList){
         this.mContext = mContext;
         this.beerModelList = beerModelList;
@@ -50,26 +44,9 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.title.setText(beerModelList.get(position).getTitle());
+        BeerModel beer = beerModelList.get(position);
 
-        if(beerModelList.get(position).getUrl() != null) {
-            Picasso.with(mContext)
-                    .load(beerModelList.get(position).getUrl())
-                    .placeholder(R.drawable.progress_animation)
-                    .error(R.drawable.beer_main)
-                    .fit()
-                    .into(holder.image);
-        }
-
-        else{
-            holder.image.setImageResource(R.drawable.beer_main);
-        }
-
-        this.theBeer = beerModelList.get(position).getTitle();
-        this.description = beerModelList.get(position).getDescription();
-        this.abv = beerModelList.get(position).getAbv();
-        this.ibu = beerModelList.get(position).getIbu();
-        this.brewery = beerModelList.get(position).getBrewery();
+        holder.init(beer);
     }
 
     @Override
@@ -81,6 +58,12 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
     class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView title;
         private ImageButton image;
+
+        private String abv = "";
+        private String ibu = "";
+        private String description = "";
+        private String theBeer = "";
+        private String brewery = "";
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -106,6 +89,27 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
 
                 }
             });
+        }
+
+        public void init(BeerModel beer) {
+            this.title.setText(beer.getTitle());
+
+            if (beer.getUrl() != null) {
+                Picasso.with(mContext)
+                        .load(beer.getUrl())
+                        .placeholder(R.drawable.progress_animation)
+                        .error(R.drawable.beer_main)
+                        .fit()
+                        .into(this.image);
+            } else {
+               this.image.setImageResource(R.drawable.beer_main);
+            }
+
+            this.theBeer = beer.getTitle();
+            this.description = beer.getDescription();
+            this.abv = beer.getAbv();
+            this.ibu = beer.getIbu();
+            this.brewery = beer.getBrewery();
         }
     }
 }

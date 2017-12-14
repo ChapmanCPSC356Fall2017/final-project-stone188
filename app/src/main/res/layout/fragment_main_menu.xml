@@ -23,7 +23,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_below="@+id/beer_logo"
-        android:layout_marginStart="115dp"
+        android:layout_centerInParent="true"
         android:elevation="10dp"
         android:translationZ="10dp"
         />
@@ -37,7 +37,7 @@
         android:text="@string/create"
         android:textSize="12sp"
         android:visibility="gone"
-        android:layout_marginStart="148dp"
+        android:layout_centerInParent="true"
         />
 
     <Button
@@ -48,7 +48,7 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:layout_below="@id/create_account"
-        android:layout_marginStart="148dp"
+        android:layout_centerInParent="true"
         android:layout_marginTop="5dp"
         android:elevation="10dp"
         android:translationZ="10dp"
@@ -60,8 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/beer_logo"
-        android:layout_marginEnd="45dp"
-        android:layout_marginStart="45dp"
+        android:layout_centerInParent="true"
         android:visibility="gone"
         android:background="@android:drawable/alert_light_frame"
         android:gravity="center"
@@ -76,9 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
-        android:layout_marginEnd="45dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="2dp"
+        android:layout_centerInParent="true"
         android:inputType="textPassword"
         android:visibility="gone"
         android:background="@android:drawable/alert_light_frame"
@@ -92,7 +89,7 @@
         android:layout_marginTop="30dp"
         android:layout_below="@+id/passwd"
         android:visibility="gone"
-        android:layout_marginStart="158dp"
+        android:layout_centerInParent="true"
         android:background="@drawable/runner"
         android:layout_width="65dp"
         android:layout_height="wrap_content" />
