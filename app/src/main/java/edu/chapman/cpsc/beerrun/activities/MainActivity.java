@@ -9,15 +9,11 @@ import edu.chapman.cpsc.beerrun.R;
 import edu.chapman.cpsc.beerrun.fragments.MainMenueFragment;
 
 public class MainActivity extends AppCompatActivity {
-    public FloatingActionButton liked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        this.liked = findViewById(R.id.thumbs);
-        liked.hide();
 
         MainMenueFragment mainMenu = new MainMenueFragment();
 
@@ -25,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showFrag(Fragment frag){
-        int inAnimation = android.R.anim.slide_in_left;
-        int outAnimation = android.R.anim.slide_out_right;
+        int inAnimation = android.R.anim.fade_in;
+        int outAnimation = android.R.anim.fade_out;
 
         getSupportFragmentManager()
                 .beginTransaction()

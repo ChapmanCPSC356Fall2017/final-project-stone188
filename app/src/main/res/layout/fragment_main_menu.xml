@@ -61,13 +61,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/beer_logo"
         android:layout_centerInParent="true"
-        android:visibility="gone"
         android:gravity="center"
+        android:hint="@string/username"
         android:inputType="text"
         android:nextFocusDown="@+id/passwd"
-        android:hint="@string/username"
+        android:textColorHighlight="@android:color/holo_green_light"
         android:textSize="20sp"
-        />
+        android:visibility="gone" />
 
     <EditText
         android:id="@+id/passwd"
@@ -75,12 +75,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
         android:layout_centerInParent="true"
-        android:inputType="textPassword"
-        android:visibility="gone"
         android:gravity="center"
         android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColorHighlight="@android:color/holo_green_light"
         android:textSize="20sp"
-        />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/submitButton"

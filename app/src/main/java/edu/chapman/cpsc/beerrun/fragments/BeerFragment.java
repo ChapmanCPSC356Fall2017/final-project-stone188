@@ -2,6 +2,7 @@ package edu.chapman.cpsc.beerrun.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -43,6 +44,8 @@ public class BeerFragment extends Fragment {
     private BeerAdapter mAdapter;
     private List<BeerModel> beers;
 
+    private RecyclerView beerListView;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -50,7 +53,6 @@ public class BeerFragment extends Fragment {
         mainActivity = (MainActivity) getContext();
 
         setHasOptionsMenu(true);
-        mainActivity.liked.show();
     }
 
     @Nullable
@@ -59,7 +61,7 @@ public class BeerFragment extends Fragment {
                              @Nullable Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_beer_list, container, false);
 
-        RecyclerView beerListView = v.findViewById(R.id.rv_beers);
+        this.beerListView = v.findViewById(R.id.rv_beers);
 
         this.beers = new ArrayList<>();
 
@@ -80,26 +82,6 @@ public class BeerFragment extends Fragment {
         super.onResume();
 
         makeCall();
-
-        if (!getUserVisibleHint()) {
-            return;
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean visible){
-        super.setUserVisibleHint(visible);
-
-        if(visible && isResumed()){
-            onResume();
-        }
-
-        mainActivity.liked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     public void makeCall(){
@@ -174,7 +156,8 @@ public class BeerFragment extends Fragment {
 
             case R.id.fav_menu:
 
-                //TODO: Return a fragment with your shared pref list
+                WishListFragment wishFrag = new WishListFragment();
+                mainActivity.showFrag(wishFrag);
 
                 return true;
 

@@ -47,8 +47,6 @@ public class MainMenueFragment extends Fragment{
 
         mainActivity = (MainActivity) getContext();
 
-        mainActivity.liked.hide();
-
         this.subBtn = v.findViewById(R.id.submitButton);
         this.user = v.findViewById(R.id.username);
         this.passwd = v.findViewById(R.id.passwd);
@@ -83,7 +81,7 @@ public class MainMenueFragment extends Fragment{
                                     "userInfo", Context.MODE_PRIVATE);
 
                             SharedPreferences.Editor editor = login.edit();
-                            editor.putStringSet("user_data", user_set);
+                            editor.putStringSet(username_key, user_set);
                             editor.apply();
                             Toast.makeText(getContext(),
                                     "Welcome! please log in", Toast.LENGTH_SHORT).show();
@@ -110,12 +108,13 @@ public class MainMenueFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 user_set = new HashSet<>();
+
                 getHash();
 
                 SharedPreferences login = getContext().getSharedPreferences(
                         "userInfo", Context.MODE_PRIVATE);
 
-                Set<String> user_validation = login.getStringSet("user_data", new HashSet<String>());
+                Set<String> user_validation = login.getStringSet(username_key, new HashSet<String>());
 
                 if(!user_validation.isEmpty() && user_set.equals(user_validation)){
                     BeerFragment beerFrag = new BeerFragment();
@@ -147,11 +146,11 @@ public class MainMenueFragment extends Fragment{
     }
 
     private Set<String> getHash(){
-        username_key = user.getText().toString();
-        passwd_key = user.getText().toString();
+        this.username_key = user.getText().toString();
+        this.passwd_key = user.getText().toString();
 
-        user_set.add(username_key);
-        user_set.add(passwd_key);
+        this.user_set.add(username_key);
+        this.user_set.add(passwd_key);
 
         return user_set;
     }

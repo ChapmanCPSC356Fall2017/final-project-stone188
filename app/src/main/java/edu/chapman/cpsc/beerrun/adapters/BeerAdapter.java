@@ -1,7 +1,9 @@
 package edu.chapman.cpsc.beerrun.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -58,6 +62,7 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
     class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView title;
         private ImageButton image;
+        private FloatingActionButton liked;
 
         private String abv = "";
         private String ibu = "";
@@ -70,6 +75,7 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
 
             this.title = itemView.findViewById(R.id.tv_title_beer);
             this.image = itemView.findViewById(R.id.iv_beer);
+            this.liked = itemView.findViewById(R.id.thumbs);
 
             this.image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,6 +93,20 @@ public class BeerAdapter extends RecyclerView.Adapter<BeerAdapter.MyViewHolder>{
 
                     ((MainActivity) mContext).showFrag(infofrag);
 
+                }
+            });
+
+            liked.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPreferences add_to_list = mContext.getSharedPreferences(
+                            "wishList", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = add_to_list.edit();
+                    editor.putString(theBeer, theBeer);
+                    editor.apply();
+
+                    Toast.makeText(mContext, "Beer added to your list!", Toast.LENGTH_SHORT).show();
                 }
             });
         }

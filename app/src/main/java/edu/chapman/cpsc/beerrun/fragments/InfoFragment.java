@@ -45,7 +45,6 @@ public class InfoFragment extends Fragment {
 
         mainActivity = (MainActivity) getContext();
 
-        mainActivity.liked.hide();
         setHasOptionsMenu(true);
     }
 
