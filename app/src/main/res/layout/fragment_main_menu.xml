@@ -57,12 +57,11 @@
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/beer_logo"
         android:layout_centerInParent="true"
         android:visibility="gone"
-        android:background="@android:drawable/alert_light_frame"
         android:gravity="center"
         android:inputType="text"
         android:nextFocusDown="@+id/passwd"
@@ -72,13 +71,12 @@
 
     <EditText
         android:id="@+id/passwd"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/username"
         android:layout_centerInParent="true"
         android:inputType="textPassword"
         android:visibility="gone"
-        android:background="@android:drawable/alert_light_frame"
         android:gravity="center"
         android:hint="@string/password"
         android:textSize="20sp"

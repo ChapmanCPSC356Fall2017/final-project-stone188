@@ -13,4 +13,9 @@
     <string name="create_account">Create Account</string>
     <string name="login">LOGIN</string>
     <string name="create">Create</string>
+    <string name="refresh">Refresh</string>
+    <string name="home_option">Home</string>
+    <string name="quit">QUIT</string>
+    <string name="wish_list">Wish List</string>
+    <string name="back">back</string>
 </resources>

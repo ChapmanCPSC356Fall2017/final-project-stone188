@@ -4,12 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.chapman.cpsc.beerrun.R;
+import edu.chapman.cpsc.beerrun.activities.MainActivity;
 import edu.chapman.cpsc.beerrun.adapters.BeerAdapter;
 import edu.chapman.cpsc.beerrun.models.BeerModel;
 import edu.chapman.cpsc.beerrun.models.BeerResponse;
@@ -36,8 +38,20 @@ public class BeerFragment extends Fragment {
     private final String TAG = "BeerFragment";
     public static final String API_KEY = "0e62b079fc775a1afe28e07ac58239fb";
 
+    MainActivity mainActivity;
+
     private BeerAdapter mAdapter;
     private List<BeerModel> beers;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+
+        mainActivity = (MainActivity) getContext();
+
+        setHasOptionsMenu(true);
+        mainActivity.liked.show();
+    }
 
     @Nullable
     @Override
@@ -66,6 +80,26 @@ public class BeerFragment extends Fragment {
         super.onResume();
 
         makeCall();
+
+        if (!getUserVisibleHint()) {
+            return;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean visible){
+        super.setUserVisibleHint(visible);
+
+        if(visible && isResumed()){
+            onResume();
+        }
+
+        mainActivity.liked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void makeCall(){
@@ -117,6 +151,38 @@ public class BeerFragment extends Fragment {
             }
 
             this.beers.add(beer);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.fragment_beer_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.refresh_menu:
+
+                beers.clear();
+                makeCall();
+                mAdapter.notifyDataSetChanged();
+
+                return true;
+
+            case R.id.fav_menu:
+
+                //TODO: Return a fragment with your shared pref list
+
+                return true;
+
+            case R.id.quit_option:
+
+                getActivity().finish();
+
+            default: return false;
         }
     }
 }

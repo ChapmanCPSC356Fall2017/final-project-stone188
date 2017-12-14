@@ -2,27 +2,18 @@ package edu.chapman.cpsc.beerrun.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.test.espresso.base.Default;
 import android.support.v4.app.Fragment;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import edu.chapman.cpsc.beerrun.R;
@@ -55,6 +46,8 @@ public class MainMenueFragment extends Fragment{
         final View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
         mainActivity = (MainActivity) getContext();
+
+        mainActivity.liked.hide();
 
         this.subBtn = v.findViewById(R.id.submitButton);
         this.user = v.findViewById(R.id.username);

@@ -5,14 +5,16 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.chapman.cpsc.beerrun.R;
+import edu.chapman.cpsc.beerrun.activities.MainActivity;
 
 /**
  *
@@ -21,6 +23,8 @@ import edu.chapman.cpsc.beerrun.R;
 
 public class InfoFragment extends Fragment {
     public static final String EXTRA_BEER_ID = "beer_id";
+
+    private MainActivity mainActivity;
 
     private TextView title;
     private TextView info;
@@ -33,6 +37,17 @@ public class InfoFragment extends Fragment {
     private String description = "";
     private String brewery = "";
     private String theBeer = "";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        mainActivity = (MainActivity) getContext();
+
+        mainActivity.liked.hide();
+        setHasOptionsMenu(true);
+    }
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
@@ -72,5 +87,26 @@ public class InfoFragment extends Fragment {
         tv.setTypeface(Typeface.DEFAULT_BOLD);
         tv.setTextColor(Color.parseColor("#000000"));
         return s;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.fragment_info, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.back_option:
+
+                BeerFragment beerFrag = new BeerFragment();
+                mainActivity.showFrag(beerFrag);
+
+                return true;
+
+            default: return false;
+        }
     }
 }

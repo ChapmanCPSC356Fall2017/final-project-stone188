@@ -4,4 +4,4 @@
     android:fromXDelta="0%"
     android:toXDelta="5%"
     android:duration="1000"
-    android:interpolator="@anim/cycle_5" />
+    android:interpolator="@anim/cycle_4" />
