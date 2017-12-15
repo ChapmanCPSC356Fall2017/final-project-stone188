@@ -1,6 +1,5 @@
 package edu.chapman.cpsc.beerrun.activities;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(inAnimation, outAnimation)
+                .addToBackStack(null)
                 .replace(R.id.fragment_container, frag)
                 .commit();
     }

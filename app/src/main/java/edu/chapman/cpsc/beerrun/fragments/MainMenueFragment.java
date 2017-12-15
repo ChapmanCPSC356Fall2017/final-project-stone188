@@ -80,16 +80,24 @@ public class MainMenueFragment extends Fragment{
                             SharedPreferences login = getContext().getSharedPreferences(
                                     "userInfo", Context.MODE_PRIVATE);
 
-                            SharedPreferences.Editor editor = login.edit();
-                            editor.putStringSet(username_key, user_set);
-                            editor.apply();
-                            Toast.makeText(getContext(),
-                                    "Welcome! please log in", Toast.LENGTH_SHORT).show();
+                            if(login.contains(username_key)){
+                                Toast.makeText(getContext(), "Username unavailable",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
-                            create.setVisibility(view.GONE);
-                            subBtn.setVisibility(view.VISIBLE);
-                            user.setText("");
-                            passwd.setText("");
+                            else {
+
+                                SharedPreferences.Editor editor = login.edit();
+                                editor.putStringSet(username_key, user_set);
+                                editor.apply();
+                                Toast.makeText(getContext(),
+                                        "Welcome! please log in", Toast.LENGTH_SHORT).show();
+
+                                create.setVisibility(view.GONE);
+                                subBtn.setVisibility(view.VISIBLE);
+                                user.setText("");
+                                passwd.setText("");
+                            }
                         }
                     }
                 });
