@@ -13,7 +13,7 @@ Beer Run beta - Android app by Frieden Stone
 ---Info Page---
 - Displays info about the beer you slected
 - info box is scrollable
-- Click the thumbs up to add to your wishlist
+- Click the thumbs up to add to your wishlist (might have to double press first time, no idea why)
 - Menu items at the top
 
 ---Wish List---
@@ -21,6 +21,7 @@ Beer Run beta - Android app by Frieden Stone
 - Can rearrange beer as you see fit
 - Swipe to delete beer from your list (yes, it also deletes from shared
 	preferences)
+- Your wish list is your own. Try logging in with someone elses credentials...
 
 
 ---Upcomming Updates---
