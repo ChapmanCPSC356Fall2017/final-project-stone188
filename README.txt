@@ -6,7 +6,7 @@ Beer Run beta - Android app by Frieden Stone
 - Re enter credentials and log in
 
 ---Main Page---
-- Currently allows user to scroll threw a randomly generated list of 10 beers
+- Currently allows user to scroll through a randomly generated list of 10 beers
 - Swipe through until you find an interesting beer and click on the image
 - Menu items are at the top (refresh calls new set of random beers)
 
