@@ -46,6 +46,7 @@ public class MainMenueFragment extends Fragment{
         final View v = inflater.inflate(R.layout.fragment_main_menu, container, false);
 
         mainActivity = (MainActivity) getContext();
+        mainActivity.liked.hide();
 
         this.subBtn = v.findViewById(R.id.submitButton);
         this.user = v.findViewById(R.id.username);
@@ -126,6 +127,7 @@ public class MainMenueFragment extends Fragment{
 
                 if(!user_validation.isEmpty() && user_set.equals(user_validation)){
                     BeerFragment beerFrag = new BeerFragment();
+                    mainActivity.identifier = username_key;
                     mainActivity.showFrag(beerFrag);
                 }
 

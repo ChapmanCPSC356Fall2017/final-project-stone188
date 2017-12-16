@@ -50,13 +50,13 @@ public class WishListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState){
-
         View v = inflater.inflate(R.layout.fragment_wish_list, container, false);
 
+        final MainActivity mainActivity = (MainActivity) getContext();
         myList = new ArrayList<>();
 
         SharedPreferences wishlist = getContext().getSharedPreferences(
-                "wishList", Context.MODE_PRIVATE);
+                mainActivity.identifier, Context.MODE_PRIVATE);
 
         Map<String,?> keys = wishlist.getAll();
 
@@ -66,9 +66,10 @@ public class WishListFragment extends Fragment {
 
             myList.add(entry.getValue().toString());
         }
+        mainActivity.liked.hide();
 
         this.wishListView = v.findViewById(R.id.rv_wishlist);
-        this.mAdapter = new WishAdapter(myList);
+        this.mAdapter = new WishAdapter(myList, getContext());
         wishListView.setAdapter(mAdapter);
 
         ItemTouchHelper.Callback callback = new BeerTouchHelper(mAdapter);

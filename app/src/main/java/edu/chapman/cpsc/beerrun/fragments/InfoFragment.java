@@ -1,5 +1,7 @@
 package edu.chapman.cpsc.beerrun.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.chapman.cpsc.beerrun.R;
 import edu.chapman.cpsc.beerrun.activities.MainActivity;
@@ -44,6 +47,7 @@ public class InfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mainActivity = (MainActivity) getContext();
+        mainActivity.liked.show();
 
         setHasOptionsMenu(true);
     }
@@ -72,6 +76,26 @@ public class InfoFragment extends Fragment {
         line1.setText(String.format("%s%s", "brewery: ", nullCheck(brewery, line1)));
         line2.setText(String.format("%s%s", "abv: ", nullCheck(abv, line2)));
         line3.setText(String.format("%s%s", "ibu: ", nullCheck(ibu, line3)));
+
+        mainActivity.liked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivity.liked.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SharedPreferences add_to_list = getContext().getSharedPreferences(
+                                mainActivity.identifier, Context.MODE_PRIVATE);
+
+                        SharedPreferences.Editor editor = add_to_list.edit();
+                        editor.putString(theBeer, theBeer);
+                        editor.apply();
+
+                        Toast.makeText(getContext(), "Beer added to your list!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         return v;
     }

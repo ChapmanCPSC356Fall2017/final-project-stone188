@@ -31,17 +31,5 @@
         android:src="@drawable/beer_main"
         android:translationZ="18dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/thumbs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_beer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@android:color/holo_green_dark"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_thumb_up_black_24dp" />
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package edu.chapman.cpsc.beerrun.adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.chapman.cpsc.beerrun.R;
+import edu.chapman.cpsc.beerrun.activities.MainActivity;
 
 /**
  * Created by fried on 12/15/2017.
@@ -18,9 +21,11 @@ import edu.chapman.cpsc.beerrun.R;
 
 public class WishAdapter extends RecyclerView.Adapter<WishAdapter.MyViewHolder>{
     private List<String>myList;
+    private Context mContext;
 
-    public WishAdapter(List<String> myList){
+    public WishAdapter(List<String> myList, Context mContext){
         this.myList = myList;
+        this.mContext = mContext;
     }
 
     @Override
@@ -48,6 +53,15 @@ public class WishAdapter extends RecyclerView.Adapter<WishAdapter.MyViewHolder>{
     }
 
     public void remove(int pos){
+        MainActivity mainActivity = (MainActivity) mContext;
+
+        SharedPreferences remove_from_list = mContext.getSharedPreferences(
+                mainActivity.identifier, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = remove_from_list.edit();
+        editor.remove(myList.get(pos));
+        editor.apply();
+
         myList.remove(pos);
         notifyItemRemoved(pos);
     }

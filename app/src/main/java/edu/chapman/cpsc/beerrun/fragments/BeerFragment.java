@@ -39,11 +39,9 @@ public class BeerFragment extends Fragment {
     private final String TAG = "BeerFragment";
     public static final String API_KEY = "0e62b079fc775a1afe28e07ac58239fb";
 
-    MainActivity mainActivity;
-
+    private MainActivity mainActivity;
     private BeerAdapter mAdapter;
     private List<BeerModel> beers;
-
     private RecyclerView beerListView;
 
     @Override
@@ -64,6 +62,8 @@ public class BeerFragment extends Fragment {
         this.beerListView = v.findViewById(R.id.rv_beers);
 
         this.beers = new ArrayList<>();
+
+        mainActivity.liked.hide();
 
         this.mAdapter = new BeerAdapter(getContext(), beers);
         beerListView.setAdapter(mAdapter);

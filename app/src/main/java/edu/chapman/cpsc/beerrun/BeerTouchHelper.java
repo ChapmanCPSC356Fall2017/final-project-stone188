@@ -1,8 +1,11 @@
 package edu.chapman.cpsc.beerrun;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
+import edu.chapman.cpsc.beerrun.adapters.BeerAdapter;
 import edu.chapman.cpsc.beerrun.adapters.WishAdapter;
 
 /**
